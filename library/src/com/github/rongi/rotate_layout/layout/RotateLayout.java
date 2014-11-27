@@ -55,6 +55,13 @@ public class RotateLayout extends ViewGroup {
         		angleChanged = true;
         	}
 
+        	if (widthMeasureSpec != oldWidthMeasureSpec
+        			|| heightMeasureSpec != oldHeightMeasureSpec) {
+        		oldHeightMeasureSpec = heightMeasureSpec;
+        		oldWidthMeasureSpec = widthMeasureSpec;
+        		sizeChanged = true;
+        	}
+
         	if(Math.abs(angle % 180) == 90) {
         		measureChild(view, heightMeasureSpec, widthMeasureSpec);
         		setMeasuredDimension(
@@ -65,6 +72,7 @@ public class RotateLayout extends ViewGroup {
         		measureChild(view, widthMeasureSpec, heightMeasureSpec);
         		setMeasuredDimension(
         			resolveSize(view.getMeasuredWidth(), widthMeasureSpec), 
+
         			resolveSize(view.getMeasuredHeight(), heightMeasureSpec));
         	}
     	} else {
@@ -74,7 +82,7 @@ public class RotateLayout extends ViewGroup {
 
     @Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-    	if(angleChanged) {
+    	if(angleChanged || sizeChanged) {
     		final RectF layoutRect = tempRectF1;
     		final RectF layoutRectRotated = tempRectF2;
     		layoutRect.set(0, 0, r - l, b - t);
@@ -82,6 +90,7 @@ public class RotateLayout extends ViewGroup {
     		rotateMatrix.mapRect(layoutRectRotated, layoutRect);
     		layoutRectRotated.round(viewRectRotated);
     		angleChanged = false;
+    		sizeChanged = false;
     	}
     	
     	final View view = getView();
@@ -134,6 +143,9 @@ public class RotateLayout extends ViewGroup {
     }
 
     private int angle;
+    
+    private int oldWidthMeasureSpec = -1;
+    private int oldHeightMeasureSpec = -1;
 
     private final Matrix rotateMatrix = new Matrix();
     
@@ -146,5 +158,6 @@ public class RotateLayout extends ViewGroup {
     private final float[] childTouchPoint = new float[2];
     
     private boolean angleChanged = true;
+    private boolean sizeChanged = true;
 
 }
