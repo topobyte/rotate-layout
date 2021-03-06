@@ -1,5 +1,3 @@
-<manifest
-    package="de.topobyte.rotatelayout"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="de.topobyte.rotatelayout">
 
 </manifest>
