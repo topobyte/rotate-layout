@@ -4,7 +4,7 @@ wrapper {
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
@@ -17,7 +17,7 @@ allprojects {
         maven {
             url maven_path_topobyte
         }
-        jcenter()
+        mavenCentral()
         google()
     }
 }
